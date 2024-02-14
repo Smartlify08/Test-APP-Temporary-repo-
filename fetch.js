@@ -143,7 +143,7 @@ async function getApproximateLocationName(apiEndpoint) {
 }
 
 async function reverseGeolocation(longitude, latitude) {
-  const reverseGeolocationApiUrl = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=5&appid=${apiKey}`;
+  const reverseGeolocationApiUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=5&appid=${apiKey}`;
   const response = await fetch(reverseGeolocationApiUrl);
   if (!response.ok) {
     throw new Error("HTTP Error:", response.status);
