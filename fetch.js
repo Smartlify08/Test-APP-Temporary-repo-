@@ -126,19 +126,13 @@ fetchData("https://jsonplaceholder.typicode.com/posts");
 // Get longitude and latitude of user
 const apiKey = "c7d22b3670943c853d36935033bd0a82";
 
-async function getApproximateLocationName(apiEndpoint) {
+async function fetchWeatherInfo(apiEndpoint) {
   const response = await fetch(apiEndpoint);
   if (!response.ok) {
     throw new Error("HTTP Error:", response.status);
   }
   const data = await response.json();
   // Extract data needed
-  const { coord, clouds, main: temperatureInfo } = data;
-  const { temp, feels_like, pressure, humidity } = temperatureInfo;
-  const temperatureData = document.createElement("div");
-  temperatureData.innerHTML = `
-    Temperature: 
-  `;
   console.log(data);
 }
 
@@ -165,9 +159,9 @@ if (navigator.geolocation) {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
       console.log(latitude);
-      const locationApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}appid=${apiKey}`;
-      getApproximateLocationName(locationApiUrl);
-      reverseGeolocation(longitude, latitude);
+      const weatherInfoAPI = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,rain,pressure_msl,surface_pressure,wind_speed_10m&timeformat=unixtime`;
+      const locationInfoAPI = ``;
+      fetchWeatherInfo(weatherInfoAPI);
     },
     (error) => {
       console.error(error);
@@ -177,3 +171,17 @@ if (navigator.geolocation) {
     }
   );
 }
+
+fetch(
+  "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m"
+)
+  .then((res) => {
+    if (!res.ok) {
+      throw new Error("HTTP Error:", res.status);
+    }
+
+    return res.json();
+  })
+  .then((data) => {
+    console.log(data);
+  });
