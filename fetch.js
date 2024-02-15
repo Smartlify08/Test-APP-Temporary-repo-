@@ -3,7 +3,7 @@ fetch("https://jsonplaceholder.typicode.com/todos/")
     return res.json();
   })
   .then((data) => {
-    console.log(data.slice(0, 10));
+    // console.log(data.slice(0, 10));
   })
   .catch((error) => {
     console.error(error);
@@ -15,7 +15,7 @@ const userId = 1;
 fetch(`https://jsonplaceholder.typicode.com/todos?userId=${userId}`)
   .then((response) => response.json())
   .then((data) => {
-    console.log(data);
+    // console.log(data);
   })
   .catch((error) => {
     console.error("Error:", error);
@@ -48,7 +48,9 @@ fetch("https://jsonplaceholder.typicode.com/todos/1")
     }
     return res.json();
   })
-  .then((data) => console.log(data))
+  .then((data) => {
+    // console.log(data);
+  })
   .catch((error) => {
     console.error(`Error: ${error}`);
   });
@@ -115,7 +117,7 @@ async function fetchData(apiUrl) {
       throw new Error(`HTTP error! Status: ${res.status}`);
     }
     const data = await res.json();
-    console.log(data.slice(0, 10));
+    // console.log(data.slice(0, 10));
   } catch (error) {
     console.error(error);
   }
@@ -156,11 +158,10 @@ async function reverseGeolocation(longitude, latitude) {
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(
     (position) => {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      console.log(latitude);
+      const { latitude, longitude } = position.coords;
       const weatherInfoAPI = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,rain,pressure_msl,surface_pressure,wind_speed_10m&timeformat=unixtime`;
-      const locationInfoAPI = ``;
+
+      reverseGeolocation(longitude, latitude);
       fetchWeatherInfo(weatherInfoAPI);
     },
     (error) => {
@@ -171,17 +172,3 @@ if (navigator.geolocation) {
     }
   );
 }
-
-fetch(
-  "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m"
-)
-  .then((res) => {
-    if (!res.ok) {
-      throw new Error("HTTP Error:", res.status);
-    }
-
-    return res.json();
-  })
-  .then((data) => {
-    console.log(data);
-  });
